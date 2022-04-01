@@ -2,7 +2,7 @@ package structure
 
 type TreeNode struct {
 	Val      int
-	LeftVal  int
+	L        int
 	RightVal int
 	Left     *TreeNode
 	Right    *TreeNode
