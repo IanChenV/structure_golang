@@ -114,3 +114,100 @@ func indexOf(val int, nums []int) int {
 	msg := fmt.Sprintf("%d 不存在于 %v中", val, nums)
 	panic(msg)
 }
+
+// 二叉树的前序遍历
+func Tree2Preorder(root *TreeNode) []int {
+	if root == nil {
+		return nil
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return []int{root.Val}
+	}
+
+	res := []int{root.Val}
+	res = append(res, Tree2Preorder(root.Left)...)
+	res = append(res, Tree2Preorder(root.Right)...)
+	return res
+}
+
+// 二叉树的后序遍历
+func Tree2Inorder(root *TreeNode) []int {
+	if root == nil {
+		return nil
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return []int{root.Val}
+	}
+
+	res := Tree2Inorder(root.Left)
+	res = append(res, root.Val)
+	res = append(res, Tree2Inorder(root.Right)...)
+	return res
+}
+
+// 二叉树的后序遍历
+func Tree2Postorder(root *TreeNode) []int {
+	if root == nil {
+		return nil
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return []int{root.Val}
+	}
+
+	res := Tree2Postorder(root.Left)
+	res = append(res, Tree2Postorder(root.Right)...)
+	res = append(res, root.Val)
+	return res
+}
+
+// 树的节点是否相等
+func (tn *TreeNode) Equal(a *TreeNode) bool {
+	if tn == nil && a == nil {
+		return true
+	}
+
+	if tn == nil || a == nil || tn.Val != a.Val {
+		return false
+	}
+
+	return tn.Equal(a.Left) && tn.Equal(a.Right)
+}
+
+// 把TreeNode转换为[]int
+// 层序化遍历
+func Tree2ints(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+	res := []int{}
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		size := len(queue)
+		for i := 0; i < size; i++ {
+			res = append(res, queue[i].Val)
+			if queue[i].Left != nil {
+				queue = append(queue, queue[i].Left)
+			}
+
+			if queue[i].Right != nil {
+				queue = append(queue, queue[i].Right)
+			}
+		}
+		queue = queue[size:]
+	}
+	return res
+}
+
+func T2s(head *TreeNode, array *[]int) {
+	*array = append(*array, head.Val)
+	if head.Left != nil {
+		T2s(head.Left, array)
+	}
+
+	if head.Right != nil {
+		T2s(head.Right, array)
+	}
+}
